@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "description": "Ultrasonic sensor blocks for Roversa project",
+  "description": "Ultrasonic sensor and emotion blocks for Roversa",
   "dependencies": {
     "core": "*"
   },
