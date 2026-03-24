@@ -1,10 +1,13 @@
-roversaSensor.setUltrasonicPins(DigitalPin.P13, DigitalPin.P14)
-roversaSensor.setStopDistance(15)
+roversaPet.setUltrasonicPins(DigitalPin.P13, DigitalPin.P14)
+roversaPet.setStopDistance(15)
+roversaPet.setCautionDistance(25)
 
 basic.forever(function () {
-    if (roversaSensor.isObstacleTooClose()) {
-        basic.showIcon(IconNames.No)
+    roversaPet.updateFaceFromDistance()
+
+    if (roversaPet.dangerDetected()) {
+        Roversa.stop()
     } else {
-        basic.showIcon(IconNames.Yes)
+        Roversa.driveForward()
     }
 })
