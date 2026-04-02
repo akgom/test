@@ -1,12 +1,20 @@
 {
-  "name": "roversa1",
-  "description": "Ultrasonic sensor and pet emotion blocks for Roversa",
-  "dependencies": {
-    "core": "*"
-  },
-  "files": [
-    "main.ts",
-    "test.ts"
-  ],
-  "public": true
+    "name": "roversa1",
+    "description": "Ultrasonic sensor and pet emotion blocks for Roversa",
+    "dependencies": {
+        "core": "*",
+        "microphone": "*"
+    },
+    "files": [
+        "main.ts",
+        "test.ts"
+    ],
+    "public": true,
+    "targetVersions": {
+        "target": "8.0.18",
+        "targetId": "microbit"
+    },
+    "supportedTargets": [
+        "microbit"
+    ]
 }

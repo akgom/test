@@ -25,14 +25,15 @@ namespace roversaPet {
     }
 
     function clamp(value: number): number {
-        if (value < 0) return 0
-        if (value > 100) return 100
+        if (value < 0) {
+            return 0
+        }
+        if (value > 100) {
+            return 100
+        }
         return value
     }
 
-    /**
-     * Set ultrasonic sensor pins
-     */
     //% block="set ultrasonic trig %trigPin echo %echoPin"
     //% group="Setup"
     export function setUltrasonicPins(trigPin: DigitalPin, echoPin: DigitalPin): void {
@@ -41,9 +42,6 @@ namespace roversaPet {
         pins.setPull(echo, PinPullMode.PullNone)
     }
 
-    /**
-     * Set stop distance in cm
-     */
     //% block="set stop distance to %cm cm"
     //% cm.min=1 cm.max=200 cm.defl=15
     //% group="Setup"
@@ -51,9 +49,6 @@ namespace roversaPet {
         stopDistance = cm
     }
 
-    /**
-     * Set caution distance in cm
-     */
     //% block="set caution distance to %cm cm"
     //% cm.min=1 cm.max=200 cm.defl=25
     //% group="Setup"
@@ -61,9 +56,6 @@ namespace roversaPet {
         cautionDistance = cm
     }
 
-    /**
-     * Set starting pet stats
-     */
     //% block="set pet stats happiness %happy stress %tense energy %power"
     //% happy.min=0 happy.max=100 happy.defl=70
     //% tense.min=0 tense.max=100 tense.defl=20
@@ -75,9 +67,6 @@ namespace roversaPet {
         energy = clamp(power)
     }
 
-    /**
-     * Distance ahead in cm
-     */
     //% block="distance ahead (cm)"
     //% group="Sensor"
     export function distanceCm(): number {
@@ -88,7 +77,7 @@ namespace roversaPet {
         control.waitMicros(10)
         pins.digitalWritePin(trig, 0)
 
-        let duration = pins.pulseIn(echo, PulseValue.High, 25000)
+        const duration = pins.pulseIn(echo, PulseValue.High, 25000)
 
         if (duration <= 0) {
             return 500
@@ -97,28 +86,19 @@ namespace roversaPet {
         return Math.idiv(duration, 58)
     }
 
-    /**
-     * True if obstacle is dangerously close
-     */
     //% block="danger detected"
     //% group="Sensor"
     export function dangerDetected(): boolean {
         return distanceCm() <= stopDistance
     }
 
-    /**
-     * True if something is nearby
-     */
     //% block="something nearby"
     //% group="Sensor"
     export function somethingNearby(): boolean {
-        let d = distanceCm()
+        const d = distanceCm()
         return d > stopDistance && d <= cautionDistance
     }
 
-    /**
-     * Pet the robot
-     */
     //% block="pet robot"
     //% group="Actions"
     export function petRobot(): void {
@@ -127,9 +107,6 @@ namespace roversaPet {
         showFace(PetEmotion.Happy)
     }
 
-    /**
-     * Feed the robot
-     */
     //% block="feed robot"
     //% group="Actions"
     export function feedRobot(): void {
@@ -138,9 +115,6 @@ namespace roversaPet {
         showFace(PetEmotion.Happy)
     }
 
-    /**
-     * Calm the robot
-     */
     //% block="calm robot"
     //% group="Actions"
     export function calmRobot(): void {
@@ -148,9 +122,6 @@ namespace roversaPet {
         showFace(PetEmotion.Curious)
     }
 
-    /**
-     * Update needs over time and from surroundings
-     */
     //% block="update pet state"
     //% group="Needs"
     export function updatePetState(): void {
@@ -171,36 +142,24 @@ namespace roversaPet {
         }
     }
 
-    /**
-     * Return happiness
-     */
     //% block="happiness"
     //% group="Needs"
     export function getHappiness(): number {
         return happiness
     }
 
-    /**
-     * Return stress
-     */
     //% block="stress"
     //% group="Needs"
     export function getStress(): number {
         return stress
     }
 
-    /**
-     * Return energy
-     */
     //% block="energy"
     //% group="Needs"
     export function getEnergy(): number {
         return energy
     }
 
-    /**
-     * Get pet emotion
-     */
     //% block="pet emotion"
     //% group="Emotion"
     export function petEmotion(): PetEmotion {
@@ -219,9 +178,6 @@ namespace roversaPet {
         return PetEmotion.Happy
     }
 
-    /**
-     * Show a face for the chosen emotion
-     */
     //% block="show face %emotion"
     //% group="Emotion"
     export function showFace(emotion: PetEmotion): void {
@@ -260,48 +216,15 @@ namespace roversaPet {
         }
     }
 
-    /**
-     * Show face based on current emotion
-     */
     //% block="update face"
     //% group="Emotion"
     export function updateFace(): void {
         showFace(petEmotion())
     }
 
-    /**
-     * Show current distance
-     */
     //% block="show distance"
     //% group="Sensor"
     export function showDistance(): void {
         basic.showNumber(distanceCm())
-    }
-
-    /**
-     * Show happiness
-     */
-    //% block="show happiness"
-    //% group="Needs"
-    export function showHappiness(): void {
-        basic.showNumber(happiness)
-    }
-
-    /**
-     * Show stress
-     */
-    //% block="show stress"
-    //% group="Needs"
-    export function showStress(): void {
-        basic.showNumber(stress)
-    }
-
-    /**
-     * Show energy
-     */
-    //% block="show energy"
-    //% group="Needs"
-    export function showEnergy(): void {
-        basic.showNumber(energy)
     }
 }
